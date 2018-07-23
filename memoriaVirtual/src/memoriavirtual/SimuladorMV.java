@@ -17,13 +17,13 @@ import java.util.ArrayList;
 0x804ae1c: R 0x9cb32f4
 */
 
-public class MemoriaVirtual {
+public class SimuladorMV {
 
     public static void main(String[] args) throws FileNotFoundException {
         List<String> listaArq = new ArrayList<>();
         List<String> endInstrucao = new ArrayList<>();
-        List<String> tipoOeracao = new ArrayList<>();
-        List<String> end_dado = new ArrayList<>();        
+        List<String> tipoOperacao = new ArrayList<>();
+        List<String> endDado = new ArrayList<>();        
         
         Scanner scan = new Scanner(new FileReader("trace1.txt")).useDelimiter("\t|\n| ");
         
