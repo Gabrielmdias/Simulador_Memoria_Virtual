@@ -21,6 +21,8 @@ public class MemoriaVirtual {
         while (scan.hasNext()){
             listaArq.add(scan.next().replaceAll(":",""));
         }
+        
+        listaArq.remove(listaArq.size() - 1);
 
         for (int j = 0; j < listaArq.size(); j = j+3) {
             end_instrucao.add(listaArq.get(j));
@@ -32,9 +34,7 @@ public class MemoriaVirtual {
             end_dado.add(listaArq.get(j));
         }
         
-        
-        System.out.println(end_instrucao);
-
+        System.out.println(end_instrucao.get(999));
     }
     
 }
