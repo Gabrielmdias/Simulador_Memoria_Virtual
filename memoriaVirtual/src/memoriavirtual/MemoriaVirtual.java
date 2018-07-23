@@ -10,18 +10,29 @@ import java.util.ArrayList;
 public class MemoriaVirtual {
 
     public static void main(String[] args) throws FileNotFoundException {
-      
+        List<String> listaArq = new ArrayList<>();
         List<String> end_instrucao = new ArrayList<>();
         List<String> tipo_operacao = new ArrayList<>();
         List<String> end_dado = new ArrayList<>();
         
         
-        Scanner scanner = new Scanner(new FileReader("trace1.txt")).useDelimiter(" ");
+        Scanner scan = new Scanner(new FileReader("trace1.txt")).useDelimiter("\t|\n| ");
         
-        while (scanner.hasNext()){
-            end_instrucao.add(scanner.next().replaceAll(":",""));
+        while (scan.hasNext()){
+            listaArq.add(scan.next().replaceAll(":",""));
         }
 
+        for (int j = 0; j < listaArq.size(); j = j+3) {
+            end_instrucao.add(listaArq.get(j));
+        }
+        for (int j = 1; j < listaArq.size(); j = j+3) {
+            tipo_operacao.add(listaArq.get(j));
+        }
+        for (int j = 2; j < listaArq.size(); j = j+3) {
+            end_dado.add(listaArq.get(j));
+        }
+        
+        
         System.out.println(end_instrucao);
 
     }
