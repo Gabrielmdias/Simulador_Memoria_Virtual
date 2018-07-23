@@ -5,9 +5,14 @@ import java.util.ArrayList;
 
 public class MemoriaVirtual {
     
-    ArrayList<Endereco> pagina = new ArrayList<>(32);
+    ArrayList<Pagina> pagina = new ArrayList<>();
     
     public MemoriaVirtual() {
     }
+
+    public ArrayList<Pagina> getPagina() {
+        return pagina;
+    }  
+    
     
 }
