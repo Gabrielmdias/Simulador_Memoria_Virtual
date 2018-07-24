@@ -2,18 +2,18 @@ package memoriavirtual;
 
 
 public class Pagina {
-    Endereco valor;
+    Endereco endereco;
 
     public Pagina(Endereco endereco) {
-        this.valor = valor;
+        this.endereco = endereco;
     }    
 
     public Endereco getValor() {
-        return valor;
+        return endereco;
     }
 
-    public void setValor(Endereco valor) {
-        this.valor = valor;
+    public void setValor(Endereco endereco) {
+        this.endereco = endereco;
     }
     
 }
