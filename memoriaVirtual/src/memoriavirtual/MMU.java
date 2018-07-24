@@ -15,6 +15,7 @@ public class MMU {
         miss = 0,
         fault = 0,
         frameAtual = 0,
+        algoritmo = 0,
         numPaginas = 65536 / tam_pag;
         
 
@@ -50,10 +51,29 @@ public class MMU {
             mF.add(endereco);
         else {
             fault++;
-            //replace
+            substituirPagina(endereco);
         }
     }
 
+    public void substituirPagina(Long endereco){
+        switch(algoritmo) {
+            case 1: // FIFO
+                mV.add(mF.get(0));
+                mF.remove(0);
+                mF.add(endereco);
+            break;    
+
+            case 2: // OUTRO
+            break;
+
+            case 0: // 0 – Exit
+            break;
+
+            default: System.out.println("???");
+        }
+	//writebacks++;
+    }
+    
     public int getHit() {
         return hit;
     }
