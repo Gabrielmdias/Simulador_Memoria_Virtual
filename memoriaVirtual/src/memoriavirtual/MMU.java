@@ -15,11 +15,11 @@ public class MMU {
     MemoriaPrincipal mP;
     int quant_frame = 512;
     int tam_pag = 128;
-    int hit;
-    int miss;
+    int hit = 0;
+    int miss = 0;
     List<Integer> tabela = new ArrayList<>(512);
     List<Integer> flag = new ArrayList<>(512);
-    
+    int frameAtual = 0;
         
 
     public MMU(MemoriaVirtual mV, MemoriaPrincipal mP) {
@@ -32,10 +32,13 @@ public class MMU {
         int indice_tabela = tabela.indexOf(num_frame);
         if (indice_tabela != -1){
             hit++;
+            flag.set(indice_tabela, 1);
         }
         else{
             miss++;
-            //fazer a sub de pagina
+            tabela.set(frameAtual, indice_tabela);
+            frameAtual = (frameAtual + 1) % quant_frame;
+            
         }
     }
     
