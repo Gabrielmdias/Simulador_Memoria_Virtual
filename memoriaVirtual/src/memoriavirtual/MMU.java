@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package memoriavirtual;
 
 import java.util.ArrayList;
@@ -10,54 +5,61 @@ import java.util.List;
 
 
 public class MMU {
-
-    MemoriaVirtual mV;
-    MemoriaPrincipal mP;
-    int quant_frame = 512;
-    int tam_pag = 128;
-    int hit = 0;
-    int miss = 0;
-    List<Integer> tabela = new ArrayList<>(512);
-    List<Integer> flag = new ArrayList<>(512);
-    int frameAtual = 0;
+    List<Long> tabela = new ArrayList<>(512),
+                flag = new ArrayList<>(512),
+                mV  = new ArrayList<>(),
+                mF = new ArrayList<>();
+    int quant_frame = 512,
+        tam_pag = 128,
+        hit = 0,
+        miss = 0,
+        fault = 0,
+        frameAtual = 0,
+        numPaginas = 65536 / tam_pag;
         
 
-    public MMU(MemoriaVirtual mV, MemoriaPrincipal mP) {
-        this.mV = mV;
-        this.mP = mP;
+    public MMU() {
+        for (int i = 0; i < 512; i++) {
+            //mF.add(i, new Long(-1));
+        }
     }    
+ 
+    public void mapearInstrucao(String endInstr, String op, String endDado) {
+        Long instrucao = Long.parseLong(endInstr, 16),
+                dado = Long.parseLong(endDado, 16);
+
+        ler(instrucao);
+        
+        if (op.equals("R") || op.equals("r"))                
+            ler(dado);
+        else if (op.equals("W") || op.equals("w"))
+            escrever(dado);
+    }
     
-    public void tlb(Endereco endereco, String tipo){
-        int num_frame = (endereco.getDecimal() / tam_pag) + 1;
-        int indice_tabela = tabela.indexOf(num_frame);
-        if (indice_tabela != -1){
+    public void ler(Long endereco){
+        if (mF.indexOf(endereco) > -1)
             hit++;
-            flag.set(indice_tabela, 1);
-        }
-        else{
+        else {
             miss++;
-            tabela.set(frameAtual, indice_tabela);
-            frameAtual = (frameAtual + 1) % quant_frame;
-            
+            escrever(endereco);
         }
     }
     
-    public void mapear(String instrucao, String op, String dado){
-        
-    }
-    
-    public void escrever(Endereco instrucao, Endereco valor){
-    }
-    
-    public void executarInstrucao(Endereco instrucao, char op, Endereco dado){
-        if (op == 'R' || op == 'r'){
-        }
-        else if (op == 'W' || op == 'w'){
+    public void escrever(Long endereco){
+        if (mF.size() < 512)
+            mF.add(endereco);
+        else {
+            fault++;
+            //replace
         }
     }
-    
-    public boolean procurar(Endereco dado){
-        //mP.getFrame().stream().anyMatch(p -> p.getValor().equals(dado));
-        return false;
-    }    
+
+    public int getHit() {
+        return hit;
+    }
+
+    public int getMiss() {
+        return miss;
+    }
+
 }

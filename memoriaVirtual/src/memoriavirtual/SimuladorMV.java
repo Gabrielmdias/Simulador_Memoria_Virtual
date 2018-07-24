@@ -3,30 +3,52 @@ package memoriavirtual;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
-
-// 0x804ae19: W 0x9cb32e0
 
 public class SimuladorMV {
     
     public static void main(String[] args) throws FileNotFoundException {
-        List<String> listaArq = new ArrayList<>();
+        
+        boolean opcaoValida = false;
+        int opcao = -1;
+        
+        while (!opcaoValida) {
+            Scanner scanner = new Scanner(System.in);
+            
+            while (!scanner.hasNextInt())
+                System.out.println("Opção Inválida");
+            
+            opcao = scanner.nextInt();
+            
+            if (opcao < 3 || opcao > -1)
+                opcaoValida = true;
+        }
+        
+        switch(opcao) {
+            case 1: // FIFO
+            break;    
+
+            case 2: // OUTRO
+            break;
+
+            case 0: // 0 – Exit
+            break;
+
+            default: System.out.println("???");
+        }
+        System.out.println("-----------------------------------------------");        
         
         Scanner scan = new Scanner(new FileReader("trace1.txt")).useDelimiter("\n");
-        MemoriaPrincipal mP = new MemoriaPrincipal();   //2^16
-        MemoriaVirtual mV = new MemoriaVirtual();
-        MMU mmu = new MMU(mV, mP);
+        MMU mmu = new MMU();        
         
         while (scan.hasNext()){
-            String linha = scan.next().replaceAll(":","");
+            String linha = scan.next().replaceAll(":","").replaceAll("0x","").replaceAll("(\\r)", "");
             String[] instrucao = linha.split(" ");
             
-            System.out.println(instrucao[0]);
-            System.out.println(instrucao[1]);
-            System.out.println(instrucao[2]);
-            mmu.mapear(instrucao[0], instrucao[1], instrucao[2]);
-            
+            mmu.mapearInstrucao(instrucao[0], instrucao[1], instrucao[2]);
         }
+        
+        System.out.println("Hits  : " + mmu.getHit());
+        System.out.println("Misses: " + mmu.getMiss());
+        System.out.println("Total : " + (mmu.getHit() + mmu.getMiss()));
     }
 }
