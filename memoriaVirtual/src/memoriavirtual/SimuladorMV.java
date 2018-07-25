@@ -7,20 +7,39 @@ import java.util.Scanner;
 public class SimuladorMV {
     
     public static void main(String[] args) throws FileNotFoundException {
+        int quant_frame = -1, tam_pag = -1;
+        Scanner scanner = new Scanner(System.in);
         
-        boolean opcaoValida = false;
+        
+        while(!valor(quant_frame)){
+            System.out.println("Qual a quantidade de frames ?");
+            quant_frame = scanner.nextInt();
+            if(!valor(quant_frame)) 
+                System.out.println("Quantidade invalida!");
+        }
+
+        while(!valor(tam_pag)){
+            System.out.println("Qual o tamanho da pagina ?");
+            tam_pag = scanner.nextInt();
+            if(!valor(tam_pag)) 
+                System.out.println("Tamanho invalido!");
+        }
+        
         int opcao = -1;
         
-        while (!opcaoValida) {
-            Scanner scanner = new Scanner(System.in);
-            
+        while (!valorOpcao(opcao)) {
+            System.out.println("Escolha o algoritmo de substituicao de pagina:");
+            System.out.println("    1 - FIFO");
+            System.out.println("    2 - Outro");
+            System.out.println("    3 - Sair");
+
             while (!scanner.hasNextInt())
                 System.out.println("Opção Inválida");
             
             opcao = scanner.nextInt();
             
             if (opcao < 3 || opcao > -1)
-                opcaoValida = true;
+                valorOpcao(opcao);
         }
         
         switch(opcao) {
@@ -50,5 +69,21 @@ public class SimuladorMV {
         System.out.println("Hits  : " + mmu.getHit());
         System.out.println("Misses: " + mmu.getMiss());
         System.out.println("Total : " + (mmu.getHit() + mmu.getMiss()));
+    }
+    
+    public static boolean valor(int valor){
+        if(valor > 0)
+            return true; 
+        else
+            return false;
+    }
+    
+    public static boolean valorOpcao(int valor){
+        if(valor > 0)
+            return true; 
+        else if(valor < 4)
+                return false;
+        else
+            return false;
     }
 }
