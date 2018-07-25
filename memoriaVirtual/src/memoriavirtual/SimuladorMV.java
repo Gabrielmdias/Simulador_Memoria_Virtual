@@ -6,49 +6,67 @@ import java.util.Scanner;
 
 public class SimuladorMV {
     
-    public static void main(String[] args) throws FileNotFoundException {
-        
-        boolean opcaoValida = false;
-        int opcao = -1;
-        
-        while (!opcaoValida) {
-            Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws FileNotFoundException {        
             
+        Scanner scanner = new Scanner(System.in);        
+        
+        int qtdFrames = -1;
+        while(!valor(qtdFrames)){
+            System.out.println("Escolha a quantidade de frames que a memória principal deve ter: ");
+            qtdFrames = scanner.nextInt();
+            if(!valor(qtdFrames))
+                System.out.println("Quantidade inválida!");
+        }
+
+        int tamPag = -1;
+        while(!valor(tamPag)){
+            System.out.println("Qual deve ser tamanho da página ?");
+            tamPag = scanner.nextInt();
+            if(!valor(tamPag)) 
+                System.out.println("Tamanho inválido!");
+        }
+                
+        int algoritmo = -1;
+        while (!valorOpcao(algoritmo)) {
+            System.out.println("Escolha o algoritmo de substituicao de pagina:");
+            System.out.println("    1 - FIFO");
+            System.out.println("    2 - Segunda Chance");
+            System.out.println("    3 - Relógio");
+            System.out.println();
+            System.out.println("    0 - Sair");
+
             while (!scanner.hasNextInt())
-                System.out.println("Opção Inválida");
+                System.out.println("Opção inválida!");
             
-            opcao = scanner.nextInt();
+            algoritmo = scanner.nextInt();
             
-            if (opcao < 3 || opcao > -1)
-                opcaoValida = true;
+            if (algoritmo < 3 || algoritmo > -1)
+                valorOpcao(algoritmo);
         }
-        
-        switch(opcao) {
-            case 1: // FIFO
-            break;    
+        MMU mmu = new MMU(qtdFrames, tamPag, algoritmo);
 
-            case 2: // OUTRO
-            break;
-
-            case 0: // 0 – Exit
-            break;
-
-            default: System.out.println("???");
-        }
         System.out.println("-----------------------------------------------");        
         
-        Scanner scan = new Scanner(new FileReader("trace1.txt")).useDelimiter("\n");
-        MMU mmu = new MMU();        
+        scanner = new Scanner(new FileReader("trace1.txt")).useDelimiter("\n");
         
-        while (scan.hasNext()){
-            String linha = scan.next().replaceAll(":","").replaceAll("0x","").replaceAll("(\\r)", "");
+        while (scanner.hasNext()){
+            String linha = scanner.next().replaceAll(":","").replaceAll("0x","").replaceAll("(\\r)", "");
             String[] instrucao = linha.split(" ");
             
-            mmu.mapearInstrucao(instrucao[0], instrucao[1], instrucao[2]);
+            if (instrucao.length > 2)
+                mmu.mapearInstrucao(instrucao[0], instrucao[1], instrucao[2]);
         }
         
         System.out.println("Hits  : " + mmu.getHit());
         System.out.println("Misses: " + mmu.getMiss());
         System.out.println("Total : " + (mmu.getHit() + mmu.getMiss()));
+    }
+    
+    public static boolean valor(int valor){
+        return (valor > 0);
+    }
+    
+    public static boolean valorOpcao(int valor){
+        return (valor > 0 && valor < 4);
     }
 }

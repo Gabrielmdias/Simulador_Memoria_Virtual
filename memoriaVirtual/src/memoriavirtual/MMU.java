@@ -8,21 +8,21 @@ import java.util.Objects;
 public class MMU {
     List<Pagina>    mV  = new ArrayList<>(),
                     mF = new ArrayList<>();
-    int quant_frame = 512,
-        tam_pag = 128,
+    int qtdFrames,
+        tamPag,
+        algoritmo,
         hit = 0,
         miss = 0,
-        fault = 0,
-        frameAtual = 0,
-        algoritmo = 1,
+        pageFault = 0,
+        frameAtual = 0,        
         ponteiroRelogio = 0,
-        numPaginas = 65536 / tam_pag;
+        numPaginas = 65536 / tamPag;
         
 
-    public MMU() {
-        for (int i = 0; i < 512; i++) {
-            //mF.add(i, new Long(-1));
-        }
+    public MMU(int qtdFrames, int tamPag, int algoritmo) {
+        this.qtdFrames = qtdFrames;
+        this.tamPag = tamPag;
+        this.algoritmo = algoritmo;
     }    
  
     public void mapearInstrucao(String endInstr, String op, String endDado) {
@@ -37,20 +37,24 @@ public class MMU {
             escrever(dado);
     }
     
-    public void ler(Long endereco){        
-        if (mF.stream().anyMatch(p -> Objects.equals(p.getPageFrame(), endereco)))
-            hit++;
-        else {
-            miss++;
-            escrever(endereco);
+    public boolean ler(Long endereco){        
+        for (int p = 0; p < mF.size(); p++) {
+            if (mF.get(p).getPageFrame().equals(endereco)) {
+                mF.get(p).setR(true);
+                hit++;
+                return true;
+            }
         }
+        miss++;
+        escrever(endereco);
+        return false;
     }
     
     public void escrever(Long endereco){
         if (mF.size() < 512)
             mF.add(new Pagina(endereco));
         else {
-            fault++;
+            pageFault++;
             substituirPagina(endereco);
         }
     }
@@ -100,7 +104,7 @@ public class MMU {
                 }
             break;   
             
-            case 0: // 0 – Exit
+            case 0: // Sair
             break;
 
             default: System.out.println("???");
