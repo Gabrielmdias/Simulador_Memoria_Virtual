@@ -9,22 +9,28 @@ public class SimuladorMV {
     public static void main(String[] args) throws FileNotFoundException {        
             
         Scanner scanner = new Scanner(System.in);        
+        int tamPag = -1,
+            qtdFrames = -1;
         
-        int qtdFrames = -1;
-        while(!valor(qtdFrames)){
-            System.out.println("Escolha a quantidade de frames que a memória principal deve ter: ");
-            qtdFrames = scanner.nextInt();
-            if(!valor(qtdFrames))
-                System.out.println("Quantidade inválida!");
-        }
+        do {
+            while(!valor(qtdFrames)){
+                System.out.println("Escolha a quantidade de frames que a memória principal deve ter: ");
+                qtdFrames = scanner.nextInt();
+                if(!valor(qtdFrames))
+                    System.out.println("Quantidade inválida!");
+            }
 
-        int tamPag = -1;
-        while(!valor(tamPag)){
-            System.out.println("Qual deve ser tamanho da página ?");
-            tamPag = scanner.nextInt();
-            if(!valor(tamPag)) 
-                System.out.println("Tamanho inválido!");
-        }
+            while(!valor(tamPag)){
+                System.out.println("Qual deve ser tamanho da página em bits?");
+                tamPag = scanner.nextInt();
+                if(!valor(tamPag)) 
+                    System.out.println("Tamanho inválido!");
+            }
+            
+            if ((tamPag * qtdFrames) > Math.pow(2, 30))
+                System.out.println("O tamanho da memória principal não deve exceder 2^30 bits");
+        } while ((tamPag * qtdFrames) > Math.pow(2, 30));
+            
                 
         int algoritmo = -1;
         while (!valorOpcao(algoritmo)) {
@@ -56,10 +62,7 @@ public class SimuladorMV {
             if (instrucao.length > 2)
                 mmu.mapearInstrucao(instrucao[0], instrucao[1], instrucao[2]);
         }
-        
-        System.out.println("Hits  : " + mmu.getHit());
-        System.out.println("Misses: " + mmu.getMiss());
-        System.out.println("Total : " + (mmu.getHit() + mmu.getMiss()));
+        mmu.report();
     }
     
     public static boolean valor(int valor){
@@ -69,4 +72,4 @@ public class SimuladorMV {
     public static boolean valorOpcao(int valor){
         return (valor > 0 && valor < 4);
     }
-    }
+}

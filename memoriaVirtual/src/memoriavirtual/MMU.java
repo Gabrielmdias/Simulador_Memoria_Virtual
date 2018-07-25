@@ -10,7 +10,7 @@ public class MMU {
     Double maxSize = (Double) Math.pow(2, 32);
     int qtdFrames,
             tamPag,
-            numPaginas,
+            tamMF,
             algoritmo,
             hit = 0,
             miss = 0,
@@ -19,10 +19,9 @@ public class MMU {
             ponteiroRelogio = 0;        
 
     public MMU(int qtdFrames, int tamPag, int algoritmo) {
-        System.out.println(maxSize);
         this.qtdFrames = qtdFrames;
         this.tamPag = tamPag;
-        this.numPaginas = 65536 / tamPag;
+        this.tamMF = tamPag * qtdFrames;
         this.algoritmo = algoritmo;
     }    
  
@@ -113,12 +112,14 @@ public class MMU {
 	//writebacks++;
     }
     
-    public int getHit() {
-        return hit;
-    }
-
-    public int getMiss() {
-        return miss;
-    }
-
+    public void report(){
+        System.out.println("Memória Principal de " + qtdFrames +
+                           " frames de tamanho " + tamPag +
+                           " totalizando " + tamPag * qtdFrames + " bits");        
+        System.out.println("Algoritmo utilizado: ");
+        
+        System.out.println("Hits  : " + hit);
+        System.out.println("Misses: " + miss);
+        System.out.println("Total : " + hit + miss);
+    }    
 }
