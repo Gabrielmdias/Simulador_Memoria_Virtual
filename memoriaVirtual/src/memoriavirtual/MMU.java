@@ -2,26 +2,27 @@ package memoriavirtual;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class MMU {
     List<Pagina>    mV  = new ArrayList<>(),
                     mF = new ArrayList<>();
+    Double maxSize = (Double) Math.pow(2, 32);
     int qtdFrames,
-        tamPag,
-        algoritmo,
-        hit = 0,
-        miss = 0,
-        pageFault = 0,
-        frameAtual = 0,        
-        ponteiroRelogio = 0,
-        numPaginas = 65536 / tamPag;
-        
+            tamPag,
+            numPaginas,
+            algoritmo,
+            hit = 0,
+            miss = 0,
+            pageFault = 0,
+            frameAtual = 0,        
+            ponteiroRelogio = 0;        
 
     public MMU(int qtdFrames, int tamPag, int algoritmo) {
+        System.out.println(maxSize);
         this.qtdFrames = qtdFrames;
         this.tamPag = tamPag;
+        this.numPaginas = 65536 / tamPag;
         this.algoritmo = algoritmo;
     }    
  

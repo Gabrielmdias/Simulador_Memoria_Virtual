@@ -34,7 +34,7 @@ public class SimuladorMV {
             System.out.println("    3 - Relógio");
             System.out.println();
             System.out.println("    0 - Sair");
-
+        
             while (!scanner.hasNextInt())
                 System.out.println("Opção inválida!");
             
@@ -69,4 +69,4 @@ public class SimuladorMV {
     public static boolean valorOpcao(int valor){
         return (valor > 0 && valor < 4);
     }
-}
+    }
