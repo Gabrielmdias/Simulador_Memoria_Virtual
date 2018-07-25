@@ -7,11 +7,11 @@ import java.util.List;
 public class MMU {
     List<Pagina>    mV  = new ArrayList<>(),
                     mF = new ArrayList<>();
-    Double maxSize = (Double) Math.pow(2, 32);
+    String nomeAlgoritmo;
     int qtdFrames,
             tamPag,
             tamMF,
-            algoritmo,
+            algoritmo,            
             hit = 0,
             miss = 0,
             pageFault = 0,
@@ -23,6 +23,14 @@ public class MMU {
         this.tamPag = tamPag;
         this.tamMF = tamPag * qtdFrames;
         this.algoritmo = algoritmo;
+        switch (algoritmo) {
+            case 1: this.nomeAlgoritmo = "FIFO";
+            break;
+            case 2: this.nomeAlgoritmo = "Segunda Chance";
+            break;
+            default: this.nomeAlgoritmo = "???";
+            break;
+        }
     }    
  
     public void mapearInstrucao(String endInstr, String op, String endDado) {
@@ -116,7 +124,7 @@ public class MMU {
         System.out.println("Memória Principal de " + qtdFrames +
                            " frames de tamanho " + tamPag +
                            " totalizando " + tamPag * qtdFrames + " bits");        
-        System.out.println("Algoritmo utilizado: ");
+        System.out.println("Algoritmo utilizado: " + nomeAlgoritmo);
         
         System.out.println("Hits  : " + hit);
         System.out.println("Misses: " + miss);

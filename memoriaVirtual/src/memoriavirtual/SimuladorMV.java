@@ -37,7 +37,6 @@ public class SimuladorMV {
             System.out.println("Escolha o algoritmo de substituicao de pagina:");
             System.out.println("    1 - FIFO");
             System.out.println("    2 - Segunda Chance");
-            System.out.println("    3 - Relógio");
             System.out.println();
             System.out.println("    0 - Sair");
         
@@ -70,6 +69,6 @@ public class SimuladorMV {
     }
     
     public static boolean valorOpcao(int valor){
-        return (valor > 0 && valor < 4);
+        return (valor > 0 && valor < 3);
     }
 }
